@@ -1,0 +1,32 @@
+import SaleReportsDataTable from "@/components/sales/saleReports-datatable";
+import { getFilteredInquiries, getUser, getUsers } from "@/lib/actions";
+
+const SaleReports = async () => {
+    const users = await getUsers();
+    const loginUser = await getUser();
+    const response = await getFilteredInquiries();
+
+    return (
+        <>
+            <div className="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4" style={{ height: "125px" }}>
+                <div className="card-body px-4 py-3">
+                    <div className="row align-items-center h-100">
+                        <div className="col-9">
+                            <h4 className="fw-semibold mb-0">Sale Reports</h4>
+                        </div>
+                        <div className="col-3">
+                            <div className="text-center mb-n5">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="card">
+                <div className="card-body p-3">{response.status === "OK" ? <SaleReportsDataTable data={response.data} users={users.data} loginUser={loginUser.data} /> : <p>{response.message}</p>}</div>
+            </div>
+        </>
+    );
+};
+
+export default SaleReports;

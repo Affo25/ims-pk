@@ -1,0 +1,316 @@
+a {
+  color: #000000;
+}
+
+.bg-background {
+  background-image: url("../images/background.jpg");
+  background-color: transparent;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #d20035 0%, #d76639 98.56%), #fff !important;
+  border-color: transparent !important;
+  border-image: linear-gradient(90deg, #d20035 0%, #d76639 98.56%) !important;
+  border-image-slice: 1 !important;
+  color: #ffffff !important;
+}
+
+.btn-primary:hover,
+.btn-primary:active {
+  background: linear-gradient(90deg, #d20035 0%, #d76639 98.56%), #fff !important;
+  border-color: transparent !important;
+  border-image: linear-gradient(90deg, #d20035 0%, #d76639 98.56%) !important;
+  border-image-slice: 1 !important;
+  color: #ffffff !important;
+}
+
+.btn-outline-primary {
+  background-color: #ffffff !important;
+  border-color: #d20035 !important;
+  color: #000000 !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:active {
+  background-color: #ffffff !important;
+  border-color: #d20035 !important;
+  color: #000000 !important;
+}
+
+.form-select:focus {
+  border-color: #dfe5ef;
+}
+
+.sidebar-nav ul .sidebar-item.selected > .sidebar-link.active,
+.sidebar-nav ul .sidebar-item.selected > .sidebar-link,
+.sidebar-nav ul .sidebar-item > .sidebar-link.active {
+  background: #f7f0ef;
+  color: #000000;
+}
+
+.sidebar-nav ul .sidebar-item .sidebar-link:hover {
+  background: #f7f0ef;
+  color: #000000;
+}
+
+.sidebar-nav .has-arrow::after {
+  border-color: #000000 !important;
+  color: #000000;
+}
+
+.sidebar-nav ul .sidebar-item .first-level .sidebar-item .sidebar-link.active {
+  color: #000000 !important;
+  font-weight: 600;
+}
+
+.sidebar-nav ul .sidebar-item .sidebar-link:hover.has-arrow::after {
+  border-color: #000000;
+}
+
+.sidebar-nav ul .sidebar-item .first-level .sidebar-item .sidebar-link:hover {
+  background-color: transparent;
+  color: #000000;
+}
+
+.sidebar-nav ul .sidebar-item .sidebar-link.active:hover.has-arrow::after {
+  border-color: #000000;
+}
+
+.bg-light-subtle {
+  background-color: #f7f0ef !important;
+}
+
+.border-dark {
+  border-color: #000000;
+}
+
+.table-primary tr {
+  border-color: transparent !important;
+}
+
+.table-primary tr th {
+  background-color: #f7f0ef !important;
+  border-color: #f7f0ef !important;
+}
+
+.table-hover > tbody > tr:hover > * {
+  background-color: #f7f0ef !important;
+  box-shadow: none;
+}
+
+.text-bg-dark {
+  background-color: #000000 !important;
+}
+
+.text-info,
+.text-dark,
+.link-dark {
+  color: #000000 !important;
+}
+
+.text-bg-primary {
+  background: linear-gradient(90deg, #d20035 0%, #d76639 98.56%), #fff !important;
+  border-color: transparent !important;
+  border-image: linear-gradient(90deg, #d20035 0%, #d76639 98.56%) !important;
+  border-image-slice: 1 !important;
+}
+
+.bg-secondary-subtle,
+.bg-info-subtle {
+  background-color: #f7f0ef !important;
+}
+
+.col:nth-child(1) .card-header {
+  background-color: #f6ece5 !important;
+}
+
+.col:nth-child(2) .card-header {
+  background-color: #f5ebe1 !important;
+}
+
+.col:nth-child(3) .card-header {
+  background-color: #f5e9dc !important;
+}
+
+.col:nth-child(4) .card-header {
+  background-color: #f4e4cf !important;
+}
+
+.col:nth-child(5) .card-header {
+  background-color: #f2dfc1 !important;
+}
+
+.rdtPicker td.rdtActive,
+.rdtPicker td.rdtActive:hover {
+  background-color: #f7f0ef !important;
+  color: #000000;
+}
+
+.rbt-token {
+  background-color: #f7f0ef !important;
+  color: #000000 !important;
+}
+
+.rbt-token .rbt-token-remove-button {
+  padding: 0.1rem 0.5rem;
+}
+
+.rbt-input-multi.focus {
+  color: #5a6a85;
+  border-color: #dfe5ef;
+  box-shadow: none;
+}
+
+.rbt-input-multi .rbt-input-wrapper {
+  margin-top: -2px;
+}
+
+.rbt-input-multi.form-control {
+  min-height: 39px;
+}
+
+.form-btn {
+  height: 39px;
+}
+
+.modal-header,
+.modal-footer {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.btn-index {
+  cursor: default;
+}
+
+.btn-index:active {
+  border-color: transparent !important;
+}
+
+.fr-popup .fr-action-buttons button.fr-command {
+  width: auto !important;
+  font-family: Arial, sans-serif !important;
+  font-size: 16px !important;
+  color: #2a3547 !important;
+}
+
+a[id="fr-logo"] {
+  display: none !important;
+}
+p[data-f-id="pbf"] {
+  display: none !important;
+}
+a[href*="www.froala.com"] {
+  display: none !important;
+}
+
+.fr-view {
+  padding: 0px 20px;
+}
+
+.fr-toolbar.fr-top {
+  border: 1px solid #dfe5ef !important;
+  border-bottom: 0 !important;
+}
+
+.fr-box.fr-basic .fr-wrapper {
+  border: 1px solid #dfe5ef !important;
+  border-top: 0 !important;
+}
+
+.fr-second-toolbar {
+  border: 1px solid #dfe5ef !important;
+  border-top: 0 !important;
+}
+
+.fr-iframe {
+  min-height: 200px;
+}
+
+.timeline-widget .timeline-item {
+  min-height: 100%;
+}
+
+.timeline-widget .timeline-item:last-of-type .timeline-badge-wrap .timeline-badge-border {
+  width: 0px;
+}
+
+.form-check-input:focus {
+  box-shadow: none;
+}
+
+.form-switch {
+  display: flex;
+  align-items: center;
+  height: 39px;
+  margin-bottom: 0px;
+}
+
+.form-switch .form-check-input {
+  height: 1.5em;
+  width: 2.5em;
+}
+
+.dropzone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+}
+
+#proposal-table tbody tr:last-of-type {
+  border-bottom-width: 0;
+}
+
+.kanban-column {
+  background-color: #f7f0ef;
+}
+
+.kanban-task {
+  padding: 12px 15px;
+  user-select: text;
+}
+
+.kanban-card-body {
+  padding-top: 24px !important;
+  padding-bottom: 24px !important;
+  min-height: 350px;
+}
+
+.kanban-card-body .card:last-of-type {
+  margin-bottom: 0px !important;
+}
+
+hr {
+  margin: 0.5rem 0;
+}
+
+.btn-check:checked + .btn,
+:not(.btn-check) + .btn:active {
+  border-color: transparent;
+}
+
+.selected-card {
+  background-color: #f7f0ef;
+}
+
+.proposal-check,
+.invoice-check,
+.solution-check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.proposal-confirmed {
+  position: absolute;
+  top: 3px;
+  right: 10px;
+}
+
+.form-check-input:checked {
+  background-color: #000000;
+  border-color: #000000;
+}
