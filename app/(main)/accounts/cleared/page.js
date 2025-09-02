@@ -1,9 +1,11 @@
 import { getClearedPayments } from "@/lib/actions";
 import ClearedPaymentsDataTable from "@/components/accounts/cleared-payments-datatable";
 
+export const dynamic = 'force-dynamic';
+
 const ClearedPayments = async () => {
   const response = await getClearedPayments();
-  const total_cleared_payments = response.data.length;
+  const total_cleared_payments = response.data ? response.data.length : 0;
 
   return (
     <>

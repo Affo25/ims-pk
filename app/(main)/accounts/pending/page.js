@@ -1,9 +1,11 @@
 import { getPendingInvoices } from "@/lib/actions";
 import PendingInvoicesDatatable from "@/components/accounts/pending-invoices-datatable";
 
+export const dynamic = 'force-dynamic';
+
 const PendingInvoices = async () => {
   const response = await getPendingInvoices();
-  const total_pending_invoices = response.data.length;
+  const total_pending_invoices = response.data ? response.data.length : 0;
 
   return (
     <>

@@ -1,10 +1,11 @@
 import TargetSalesDataTable from "@/components/accounts/target-sales-datatable";
 import { getTargets } from "@/lib/actions";
 
+export const dynamic = 'force-dynamic';
 
 const TargetSales = async () => {
     const response = await getTargets();
-    const total_target_sales = response.data.length;
+    const total_target_sales = response.data ? response.data.length : 0;
 
     return (
         <>

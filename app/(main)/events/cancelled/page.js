@@ -1,9 +1,11 @@
 import { getCancelledEvents } from "@/lib/actions";
 import CancelledEventsDataTable from "@/components/events/cancelled-events-datatable";
 
+export const dynamic = 'force-dynamic';
+
 const CancelledEvents = async () => {
   const response = await getCancelledEvents();
-  const total_cancelled_events = response.data.length;
+  const total_cancelled_events = response.data ? response.data.length : 0;
 
   return (
     <>

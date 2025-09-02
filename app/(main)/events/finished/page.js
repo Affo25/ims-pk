@@ -1,9 +1,11 @@
 import { getFinishedEvents } from "@/lib/actions";
 import FinishEventsDataTable from "@/components/events/finished-events-datatable";
 
+export const dynamic = 'force-dynamic';
+
 const FinishedEvents = async () => {
   const response = await getFinishedEvents();
-  const total_finished_events = response.data.length;
+  const total_finished_events = response.data ? response.data.length : 0;
 
   return (
     <>

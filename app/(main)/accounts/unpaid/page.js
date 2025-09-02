@@ -1,9 +1,11 @@
 import { getUnpaidPayments } from "@/lib/actions";
 import UnpaidPaymentsDatatable from "@/components/accounts/unpaid-payments-datatable";
 
+export const dynamic = 'force-dynamic';
+
 const UnpaidPayments = async () => {
   const response = await getUnpaidPayments();
-  const total_unpaid_payments = response.data.length;
+  const total_unpaid_payments = response.data ? response.data.length : 0;
 
   return (
     <>

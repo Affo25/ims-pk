@@ -1,9 +1,11 @@
 import { getClients } from "@/lib/actions";
 import UnSubscribesDataTable from "@/components/marketing/unsubscribes-datatable";
 
+export const dynamic = 'force-dynamic';
+
 const UnSubscribes = async () => {
     const response = await getClients();
-    const Clients = response.data
+    const Clients = response.data || [];
     const unsubscribedClients = Clients.filter(client => client.subscribed === false);
     const totalClients = unsubscribedClients?.length || 0;
     return (

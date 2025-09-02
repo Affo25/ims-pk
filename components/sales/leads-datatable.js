@@ -23,10 +23,12 @@ const LeadsDataTable = ({ data, user }) => {
     const [companies, setCompanies] = useState([]);
     const [editingLead, setEditingLead] = useState({});
     const [selectedLead, setSelectedLead] = useState({});
-   const [addLeadOpen, setAddLeadOpen] = useState(false);
-const [editLeadOpen, setEditLeadOpen] = useState(false);
-const [deleteLeadOpen, setDeleteLeadOpen] = useState(false);
-const [addInquiryOpen, setAddInquiryOpen] = useState(false);
+    const [modalState, setModalState] = useState({
+        addLead: false,
+        editLead: false,
+        deleteLead: false,
+        addInquiry: false
+    });
 
 
     const filteredData = useMemo(() => {
