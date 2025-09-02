@@ -1,6 +1,10 @@
 // app/api/public-lead/route.js
 
-import { createClient } from "@/lib/supabase-server";
+import connectDB from "@/lib/mongoose";
+import { Lead } from "@/models";
+import ShortUniqueId from "short-unique-id";
+
+const uid = new ShortUniqueId();
 
 export async function POST(req) {
     try {
@@ -13,40 +17,38 @@ export async function POST(req) {
             });
         }
 
-        const supabase = await createClient();
+        await connectDB();
 
-        const { error } = await supabase
-            .from("leads")
-            .insert({
-                name,
-                email: email.toLowerCase(),
-                contact,
-                request,
-                source: source || null,
-                sale: sale || null,
-                contact_status: contact_status || null,
-                comments: comments || null,
-                status: "NEW",
-                created_at: new Date(),
-                activity: [
-                    {
-                        message: "<p class='mb-0'>Lead added via public API</p>",
-                        date_time: new Date(),
-                    },
-                ],
-            });
-
-        if (error) {
-            return new Response(JSON.stringify({ status: "ERROR", message: error.message }), {
-                status: 500,
-            });
-        }
+        const leadId = uid.rnd();
+        
+        const leadDoc = new Lead({
+            _id: leadId,
+            name,
+            email: email.toLowerCase(),
+            contact,
+            request,
+            source: source || null,
+            sale: sale || null,
+            contact_status: contact_status || null,
+            comments: comments || null,
+            user_id: null, // No user assigned for public leads
+            status: "NEW",
+            activity: [
+                {
+                    message: "<p class='mb-0'>Lead added via public API</p>",
+                    date_time: new Date(),
+                },
+            ],
+        });
+        
+        await leadDoc.save();
 
         return new Response(JSON.stringify({ status: "OK", message: "Lead added successfully" }), {
             status: 200,
         });
 
     } catch (error) {
+        console.error("Public lead API error:", error);
         return new Response(JSON.stringify({ status: "ERROR", message: error.message }), {
             status: 500,
         });

@@ -10,11 +10,11 @@ import { solutions } from "@/lib/data";
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
 
 const DashboardBody = ({
-  LeadsWithoutSaleperson,
-  data,
-  upcomingEvents,
-  monthlyTargets,
-  pendingDealsCount,
+  LeadsWithoutSaleperson = 0,
+  data = null,
+  upcomingEvents = [],
+  monthlyTargets = [],
+  pendingDealsCount = 0,
   // clientData,
   // users
 }) => {
@@ -86,6 +86,50 @@ const DashboardBody = ({
 
   const target = monthlyTargets.length > 0 ? monthlyTargets[0] : null;
 
+  // Format the yearly sales data for Chart.js
+  const formatChartData = (salesData) => {
+    if (!salesData) {
+      return null;
+    }
+
+    // If data already has datasets, return as-is
+    if (salesData.datasets) {
+      return salesData;
+    }
+
+    // If data has labels and data properties, format it
+    if (salesData.labels && salesData.data) {
+      return {
+        labels: salesData.labels,
+        datasets: [{
+          label: 'Monthly Sales (AED)',
+          data: salesData.data,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      };
+    }
+
+    // If it's an array or other structure, create a default format
+    if (Array.isArray(salesData)) {
+      return {
+        labels: salesData.map((_, index) => `Month ${index + 1}`),
+        datasets: [{
+          label: 'Monthly Sales (AED)',
+          data: salesData,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      };
+    }
+
+    return null;
+  };
+
+  const chartData = formatChartData(data);
+
   const handleSolutionChange = (e) => {
     setSource(e.target.value);
   };
@@ -136,13 +180,13 @@ const DashboardBody = ({
                   <h5 className="card-title fw-semibold">Total sales</h5>
                   <p className="card-subtitle mb-2">{currentMonthName}</p>
                   <div className="d-flex align-items-center mb-2">
-                    <h4 className="fw-semibold mb-0 me-8">AED {data.currentMonth ? data.currentMonth.toLocaleString("en-US") : 0}
+                    <h4 className="fw-semibold mb-0 me-8">AED {(data && data.currentMonth) ? data.currentMonth.toLocaleString("en-US") : 0}
                     </h4>
                   </div>
                   <p className="card-subtitle mb-2">Last 7 days</p>
                   <div className="d-flex align-items-center">
-                    <h4 className="fw-semibold mb-0 me-8">AED {initialLast7Days !== null ? initialLast7Days.toLocaleString("en-US") : 0}
-                    </h4>
+                    {/* <h4 className="fw-semibold mb-0 me-8">AED {initialLast7Days !== null ? initialLast7Days.toLocaleString("en-US") : 0} */}
+                    {/* </h4> */}
                   </div>
                 </div>
                 <div className="col-4">
@@ -164,7 +208,7 @@ const DashboardBody = ({
                   <h5 className="card-title fw-semibold">Total sales</h5>
                   <p className="card-subtitle mb-9">Year till date</p>
                   <div className="d-flex align-items-center mb-3">
-                    <h4 className="fw-semibold mb-0 me-8">AED {data.total ? data.total.toLocaleString("en-US") : 0}
+                    <h4 className="fw-semibold mb-0 me-8">AED {(data && data.total) ? data.total.toLocaleString("en-US") : 0}
                     </h4>
                   </div>
                 </div>
@@ -245,8 +289,8 @@ const DashboardBody = ({
                   <h5 className="card-title fw-semibold">Total sales</h5>
                   <p className="card-subtitle mb-9">Year till date</p>
                   <div className="d-flex align-items-center mb-3">
-                    {data ? (
-                      <Bar options={options} data={data} />
+                    {chartData ? (
+                      <Bar options={options} data={chartData} />
                     ) : (
                       <p>No data available for this year.</p>
                     )}
@@ -297,7 +341,7 @@ const DashboardBody = ({
         <div className="col-lg-12">
           <div className="card" style={{ minHeight: "400px" }}>
             <div className="card-body">
-              <h5 className="card-title fw-semibold">Total Sales : AED {dailySales && dailySales.total.toLocaleString()}
+              <h5 className="card-title fw-semibold">Total Sales : AED {(dailySales && dailySales.total) ? dailySales.total.toLocaleString() : 0}
               </h5>
               <div className="row align-items-start">
                 <div className="col-3 pb-4">
@@ -332,9 +376,9 @@ const DashboardBody = ({
                 <div className="d-flex align-items-center mb-3">
                   {isLoading ? (
                     <p>Loading data...</p>
-                  ) : dailySales ? (
+                  ) : dailySales && formatChartData(dailySales) ? (
                     <>
-                      <Bar options={options} data={dailySales} />
+                      <Bar options={options} data={formatChartData(dailySales)} />
                     </>
                   ) : (
                     <p>No data available for selected range.</p>

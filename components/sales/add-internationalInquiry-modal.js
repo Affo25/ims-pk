@@ -54,7 +54,7 @@ const AddInternationalInquiryModal = ({ onClose, companies, addLead }) => {
             if (selected[0]?.customOption) {
                 setInquiry({ ...inquiry, company: selected[0].label });
             } else {
-                setInquiry({ ...inquiry, company: selected[0] });
+                setInquiry({ ...inquiry, company: selected[0].name });
             }
 
             return;
@@ -162,11 +162,16 @@ const AddInternationalInquiryModal = ({ onClose, companies, addLead }) => {
 
     const handleEditingInquiry = (inquiry) => {
         setSource([inquiry.source]);
+        // Handle company selection - if it's a string, convert it to the expected object format
+        if (inquiry.company) {
+            setCompany([{ name: inquiry.company }]);
+        }
         setInquiry({
             name: inquiry.name,
             email: inquiry.email,
             contact: inquiry.contact,
             source: inquiry.source,
+            company: inquiry.company,
             comments: inquiry.comments ? inquiry.comments : "",
             location: inquiry.location || '',
         });
@@ -325,8 +330,9 @@ const AddInternationalInquiryModal = ({ onClose, companies, addLead }) => {
                                                         id="company"
                                                         inputProps={{ id: "company", autoComplete: "off" }}
                                                         className="mb-3"
+                                                        labelKey="name"
                                                         onChange={(selected) => onTypeheadInputChange("company", selected)}
-                                                        options={companies}
+                                                        options={companies || []}
                                                         selected={company}
                                                         paginationText={"Show more results"}
                                                         newSelectionPrefix="Add a company:"

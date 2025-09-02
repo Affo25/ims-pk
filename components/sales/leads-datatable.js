@@ -23,12 +23,11 @@ const LeadsDataTable = ({ data, user }) => {
     const [companies, setCompanies] = useState([]);
     const [editingLead, setEditingLead] = useState({});
     const [selectedLead, setSelectedLead] = useState({});
-    const [modalState, setModalState] = useState({
-        addLead: false,
-        editLead: false,
-        deleteLead: false,
-        editInquiry: false,
-    });
+   const [addLeadOpen, setAddLeadOpen] = useState(false);
+const [editLeadOpen, setEditLeadOpen] = useState(false);
+const [deleteLeadOpen, setDeleteLeadOpen] = useState(false);
+const [addInquiryOpen, setAddInquiryOpen] = useState(false);
+
 
     const filteredData = useMemo(() => {
         return selectedSalesperson ? data.filter((item) => item?.sale === selectedSalesperson) : data;
@@ -38,7 +37,7 @@ const LeadsDataTable = ({ data, user }) => {
 
     useEffect(() => {
         fetchCounts();
-    }, [modalState]);
+    }, [fetchCounts]);
 
     const columns = [
         {
@@ -100,16 +99,19 @@ const LeadsDataTable = ({ data, user }) => {
 
                 return (
                     <>
-                        {parsed && parsed.map((item, index) =>
-                            item && item.solution && item.solution.map((solution, subIndex) => (
+                        {parsed && Array.isArray(parsed) && parsed.map((item, index) => {
+                            if (!item || !item.solution || !Array.isArray(item.solution)) {
+                                return null;
+                            }
+                            return item.solution.map((solution, subIndex) => (
                                 <span
                                     key={`${index}-${subIndex}`}
                                     className="badge bg-primary text-white fw-semibold me-1 fs-2"
                                 >
                                     {solution}
                                 </span>
-                            ))
-                        )}
+                            ));
+                        })}
                     </>
                 );
             },

@@ -1,6 +1,8 @@
 import LeadsDataTable from "@/components/sales/leads-datatable";
 import { getLeads, } from "@/lib/actions";
 
+export const dynamic = 'force-dynamic';
+
 const Leads = async () => {
     const response = await getLeads();
 

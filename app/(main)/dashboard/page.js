@@ -1,29 +1,98 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import DashboardBody from "@/components/dashboard/dashboard-body";
 import {
   // getClients, getInactiveClients,
   getLeadsWithoutSaleCount, getMonthlySalesData, getMonthlyTargets, getSubmittedInquiries, getTop5UpcomingEvents, getUsers
 } from "@/lib/actions";
 
-const Dashboard = async () => {
-  const response = await getMonthlySalesData();
-  const upcomingEventsResult = await getTop5UpcomingEvents();
-  const LeadsWithoutSalepersonResult = await getLeadsWithoutSaleCount();
-  const monthlyTargetsSet = await getMonthlyTargets();
-  const submittedDealsResult = await getSubmittedInquiries();
-  const users = await getUsers();
-  const pendingDealsCount = submittedDealsResult.data?.length || 0;
-  // const retentionClients = await getInactiveClients();
-  // const responses = await getClients();
-  // const Clients = responses.data;
+const Dashboard = () => {
+  const [dashboardData, setDashboardData] = useState({
+    salesData: null,
+    upcomingEvents: null,
+    leadsWithoutSale: null,
+    monthlyTargets: null,
+    submittedDeals: null,
+    users: null,
+    loading: true,
+    error: null
+  });
 
-  // let totalClients = 0;
-  // let totalProspectClients = 0;
+  useEffect(() => {
+    const loadDashboardData = async () => {
+      try {
+        // Get session token for server actions
+        const sessionToken = localStorage.getItem('session_token');
+        
+        if (!sessionToken) {
+          window.location.href = '/signin';
+          return;
+        }
 
-  // Clients.forEach(client => {
-  //   if (client.subscribed === false) totalClients++;
-  //   if (client.list === "PROSPECTS") totalProspectClients++;
-  // });
-  // const clientData = [totalProspectClients, retentionClients.data?.length || 0, totalClients];
+        const [
+          response,
+          upcomingEventsResult,
+          LeadsWithoutSalepersonResult,
+          monthlyTargetsSet,
+          submittedDealsResult,
+          users
+        ] = await Promise.all([
+          getMonthlySalesData(),
+          getTop5UpcomingEvents(),
+          getLeadsWithoutSaleCount(),
+          getMonthlyTargets(),
+          getSubmittedInquiries(),
+          getUsers()
+        ]);
+        
+        setDashboardData({
+          salesData: response,
+          upcomingEvents: upcomingEventsResult,
+          leadsWithoutSale: LeadsWithoutSalepersonResult,
+          monthlyTargets: monthlyTargetsSet,
+          submittedDeals: submittedDealsResult,
+          users: users,
+          loading: false,
+          error: null
+        });
+      } catch (error) {
+        console.error('Dashboard data loading error:', error);
+        setDashboardData(prev => ({
+          ...prev,
+          loading: false,
+          error: error.message
+        }));
+      }
+    };
+
+    loadDashboardData();
+  }, []);
+
+  if (dashboardData.loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '400px' }}>
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (dashboardData.error) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        <h4 className="alert-heading">Error Loading Dashboard</h4>
+        <p>{dashboardData.error}</p>
+        <button className="btn btn-primary" onClick={() => window.location.reload()}>
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  const { salesData, upcomingEvents, leadsWithoutSale, monthlyTargets, submittedDeals, users } = dashboardData;
+  const pendingDealsCount = submittedDeals?.data?.length || 0;
 
   return (
     <>
@@ -39,17 +108,21 @@ const Dashboard = async () => {
           </div>
         </div>
       </div>
-      {response.status === "OK" ? <DashboardBody
-        data={response.data}
-        LeadsWithoutSaleperson={LeadsWithoutSalepersonResult.count}
-        upcomingEvents={upcomingEventsResult.data}
-        monthlyTargets={monthlyTargetsSet.data}
-        pendingDealsCount={pendingDealsCount}
-        // clientData={clientData}
-        users={users.data}
-      /> : <p>{response.message}</p>}
-      {/* {response.status === "OK" ? <SoftwareBoard data={response.data} /> : <p>{response.message}</p>}
-        <DashboardBody /> */}
+      {salesData?.status === "OK" ? (
+        <DashboardBody
+          data={salesData.data}
+          LeadsWithoutSaleperson={leadsWithoutSale?.count || 0}
+          upcomingEvents={upcomingEvents?.data || []}
+          monthlyTargets={monthlyTargets?.data || []}
+          pendingDealsCount={pendingDealsCount}
+          users={users?.data || []}
+        />
+      ) : (
+        <div className="alert alert-warning" role="alert">
+          <h4 className="alert-heading">Dashboard Data Unavailable</h4>
+          <p>{salesData?.message || 'Unable to load dashboard data'}</p>
+        </div>
+      )}
     </>
   );
 };

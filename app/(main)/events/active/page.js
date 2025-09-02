@@ -3,7 +3,7 @@ import ActiveEventsDataTable from "@/components/events/active-events-datatable";
 
 const ActiveEvents = async () => {
   const response = await getActiveEvents();
-  const total_events = response.data.length;
+  const total_events = response.data ? response.data.length : 0;
 
   return (
     <>

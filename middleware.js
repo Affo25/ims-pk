@@ -1,35 +1,41 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase-middleware";
 
 const middleware = async (request) => {
-  const { supabase, response } = createClient(request);
-  const { data } = await supabase.auth.getUser();
-
   const pathname = request.nextUrl.pathname;
-
-  if (!data.user) {
-    if (!pathname.startsWith("/signin")) {
-      return NextResponse.redirect(new URL("/signin", request.url));
+  
+  // Check if it's a protected route
+  const isProtectedRoute = pathname.startsWith('/dashboard') || 
+                          pathname.startsWith('/sales') || 
+                          pathname.startsWith('/marketing') || 
+                          pathname.startsWith('/events') || 
+                          pathname.startsWith('/development') || 
+                          pathname.startsWith('/accounts') || 
+                          pathname.startsWith('/users');
+  
+  // If accessing protected route, check for session token
+  if (isProtectedRoute) {
+    const sessionToken = request.cookies.get('session_token')?.value;
+    
+    if (!sessionToken) {
+      // Redirect to signin if no session token
+      return NextResponse.redirect(new URL('/signin', request.url));
     }
-
-    return response;
+    
+    // TODO: In production, verify session token with database
+    // For now, just check if token exists
   }
-
-  const id = data.user.id;
-  const result = await supabase.from("users").select("*").eq("id", id);
-  const user = result.data[0];
-
-  const isAllowed = user.areas.find((area) => pathname.includes(area)) !== undefined;
-
-  if (!isAllowed && pathname !== "/") {
-    if (user.country === "PAK") {
-      return NextResponse.redirect(new URL("/development/software-tracker", request.url));
+  
+  // Redirect root to signin if no session, dashboard if has session
+  if (pathname === '/') {
+    const sessionToken = request.cookies.get('session_token')?.value;
+    if (sessionToken) {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    } else {
+      return NextResponse.redirect(new URL('/signin', request.url));
     }
-
-    return NextResponse.redirect(new URL("/access-denied", request.url));
   }
-
-  return response;
+  
+  return NextResponse.next();
 };
 
 export default middleware;

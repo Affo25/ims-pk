@@ -1,5 +1,7 @@
 import SigninForm from "./signin-form";
 
+export const dynamic = 'force-dynamic';
+
 const Signin = async () => {
   return (
     <div className="bg-background">

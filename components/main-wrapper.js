@@ -27,25 +27,41 @@ const MainWrapper = ({ children }) => {
 
   const getData = async () => {
     try {
-      let response = await getUser();
+      // Get session token from localStorage
+      const sessionToken = typeof window !== 'undefined' ? localStorage.getItem('session_token') : null;
+      let response = await getUser(sessionToken);
 
       if (response.status === "ERROR") {
         logger("getData()", "Something went wrong.");
         toast.error(response.message);
+        // Clear invalid session data
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('session_token');
+          localStorage.removeItem('user_data');
+        }
+        router.push("/signin");
         return;
       }
 
       setUser(response.data);
-      setAreas(response.data.areas);
+      setAreas(response.data.areas || []);
       setLoading(false);
     } catch (error) {
       logger("getData()", "Something went wrong.");
       toast.error("Something went wrong.");
+      setLoading(false);
     }
   };
 
   const handleSignout = async () => {
     await signOutUser();
+    // Clear session data from localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('session_token');
+      localStorage.removeItem('user_data');
+      // Clear cookie as well
+      document.cookie = 'session_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT; SameSite=Lax';
+    }
     router.push("/signin");
   };
 

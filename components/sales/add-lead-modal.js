@@ -135,7 +135,7 @@ const AddLeadModal = ({ onClose }) => {
             request: "",
             sale: "",
             contact_status: "",
-            solution: "",
+            solution: [],
             comments: "",
         });
         onClose();

@@ -58,7 +58,7 @@ const AddInquiryModal = ({ onClose, companies, addLead }) => {
       if (selected[0]?.customOption) {
         setInquiry({ ...inquiry, company: selected[0].label });
       } else {
-        setInquiry({ ...inquiry, company: selected[0] });
+        setInquiry({ ...inquiry, company: selected[0].name });
       }
 
       return;
@@ -201,6 +201,10 @@ const AddInquiryModal = ({ onClose, companies, addLead }) => {
   const handleEditingInquiry = (inquiry) => {
     setSource([inquiry.source]);
     setBound([inquiry.bound]);
+    // Handle company selection - if it's a string, convert it to the expected object format
+    if (inquiry.company) {
+      setCompany([{ name: inquiry.company }]);
+    }
     setSowFormValues(inquiry.solution ? inquiry.solution : [{ solution: [] }]);
     setInquiry({
       name: inquiry.name,
@@ -208,6 +212,7 @@ const AddInquiryModal = ({ onClose, companies, addLead }) => {
       contact: inquiry.contact,
       source: inquiry.source,
       bound: inquiry.bound,
+      company: inquiry.company,
       scopeOfWork: inquiry.solution ? inquiry.solution : [],
       comments: inquiry.comments ? inquiry.comments : "",
       location: inquiry.location || '',
@@ -376,8 +381,9 @@ const AddInquiryModal = ({ onClose, companies, addLead }) => {
                             id="company"
                             inputProps={{ id: "company", autoComplete: "off" }}
                             className="mb-3"
+                            labelKey="name"
                             onChange={(selected) => onTypeheadInputChange("company", selected)}
-                            options={companies}
+                            options={companies || []}
                             selected={company}
                             paginationText={"Show more results"}
                             newSelectionPrefix="Add a company:"

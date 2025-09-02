@@ -10,19 +10,22 @@
   },
   "dependencies": {
     "@mailchimp/mailchimp_transactional": "^1.0.59",
-    "@supabase/ssr": "^0.5.2",
-    "@supabase/supabase-js": "^2.49.1",
     "@tanstack/react-table": "^8.21.2",
+    "asynckit": "^0.4.0",
     "axios": "^1.7.9",
     "chart.js": "^4.4.8",
+    "combined-stream": "^1.0.8",
     "date-fns": "^4.1.0",
+    "delayed-stream": "^1.0.0",
     "file-saver": "^2.0.5",
+    "goober": "^2.1.16",
     "html-react-parser": "^5.2.2",
     "html2pdf.js": "^0.10.2",
     "moment": "^2.30.1",
-    "mongodb": "^6.14.2",
-    "next": "^15.1.7",
-    "nextjs-toploader": "^3.7.15",
+    "mongoose": "^7.6.8",
+    "next": "^14.2.16",
+    "nextjs-toploader": "^1.6.12",
+    "nprogress": "^0.2.0",
     "papaparse": "^5.5.2",
     "querystring": "^0.2.1",
     "react": "^18.3.1",
@@ -36,8 +39,14 @@
     "react-dropzone": "^14.3.8",
     "react-froala-wysiwyg": "^4.5.0",
     "react-hot-toast": "^2.5.2",
+    "react-is": "^18.3.1",
     "react-to-print": "^3.0.5",
     "short-unique-id": "^5.2.0",
+    "sparse-bitfield": "^3.0.3",
     "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "24.3.0",
+    "typescript": "^5.9.2"
   }
 }

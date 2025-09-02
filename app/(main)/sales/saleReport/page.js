@@ -1,6 +1,8 @@
 import SaleReportsDataTable from "@/components/sales/saleReports-datatable";
 import { getFilteredInquiries, getUser, getUsers } from "@/lib/actions";
 
+export const dynamic = 'force-dynamic';
+
 const SaleReports = async () => {
     const users = await getUsers();
     const loginUser = await getUser();
